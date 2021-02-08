@@ -1,16 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HighScoreText : MonoBehaviour
 {
+	private Text highScoreText;
 
-	Text score;
-
-	void OnEnable()
+	private void OnEnable()
 	{
-		score = GetComponent<Text>();
-		score.text = "High Score: " + PlayerPrefs.GetInt("HighScore").ToString();
+		highScoreText = GetComponent<Text>();
+		highScoreText.text = "High Score: " + PlayerPrefs.GetInt("HighScore").ToString();
 	}
 }
