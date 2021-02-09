@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +11,9 @@ public class GameManager : MonoBehaviour
 
 	public static GameManager Instance;
 
+	public GameObject playerPrefab;
+	public GameObject backgroundImage;
+
 	public GameObject menuScreen;
 	public GameObject startScreen;
 	public GameObject playScreen;
@@ -16,28 +21,26 @@ public class GameManager : MonoBehaviour
 	public bool GameOver { get { return gameOver; } }
 	public int Score { get { return score; } }
 
-	private Text scoreText;
-	private Image newHighScoreImage;
-	private Image rateImage;
+	public Text scoreText;
+	public Image newHighScoreImage;
+	public Image medalImage;
 
+	public Sprite avatarSprite;
+	public Sprite backgroundSprite;
 
-	public Sprite rateBronzeSprite;
-	public Sprite rateSilverSprite;
-	public Sprite rateGoldSprite;
-	public Sprite rateDiamondSprite;
+	public Sprite medalEmptySprite;
+	public Sprite medalBronzeSprite;
+	public Sprite medalSilverSprite;
+	public Sprite medalGoldSprite;
+	public Sprite medalDiamondSprite;
+
+	public Image muteOrUnmuteButton;
+
+	public Sprite muteSprite;
+	public Sprite unmuteSprite;
 
 	private int score = 0;
 	private bool gameOver = true;
-
-    private void Start()
-    {
-		// Initialize Play Screen Components
-		scoreText = playScreen.GetComponent("ScoreText") as Text;
-
-		// Initialize Dead Screen Componenents
-		rateImage = deadScreen.GetComponent("RateImage") as Image;
-		newHighScoreImage = deadScreen.GetComponent("NewHighScoreImage") as Image;
-	}
 
     private enum PageState
 	{
@@ -47,8 +50,16 @@ public class GameManager : MonoBehaviour
 		Dead,
 	}
 
-	public void ShowStartScreen()
+    private void Start()
+    {
+		Screen.SetResolution(1080, 1920, true, 60);
+
+		LoadAvatarImage();
+		LoadBackgroundImage();
+	}
+    public void ShowStartScreen()
 	{
+		// Initialize Play Screen Components
 		SetPageState(PageState.Start);
 	}
 
@@ -58,6 +69,17 @@ public class GameManager : MonoBehaviour
 		OnGameStarted();
 		score = 0;
 		gameOver = false;
+
+		if (AudioListener.pause)
+		{
+			muteOrUnmuteButton.sprite = unmuteSprite;
+			AudioListener.pause = true;
+		}
+		else
+		{
+			muteOrUnmuteButton.sprite = muteSprite;
+			AudioListener.pause = false;
+		}
 	}
 
 	public void ConfirmGameOver()
@@ -113,21 +135,25 @@ public class GameManager : MonoBehaviour
 			newHighScoreImage.enabled = false;
         }
 
-		if (score > 4)
+		if (score >= 4)
         {
-			rateImage.sprite = rateDiamondSprite;
+			medalImage.sprite = medalDiamondSprite;
         }
-		else if(score > 3)
+		else if(score >= 3)
         {
-			rateImage.sprite = rateGoldSprite;
+			medalImage.sprite = medalGoldSprite;
 		}
-		else if (score > 2)
+		else if (score >= 2)
 		{
-			rateImage.sprite = rateSilverSprite;
+			medalImage.sprite = medalSilverSprite;
 		}
-		else if (score > 1)
+		else if (score >= 1)
 		{
-			rateImage.sprite = rateBronzeSprite;
+			medalImage.sprite = medalBronzeSprite;
+		}
+		else
+        {
+			medalImage.sprite = medalEmptySprite;
 		}
 
 		SetPageState(PageState.Dead);
@@ -161,6 +187,138 @@ public class GameManager : MonoBehaviour
 				playScreen.SetActive(false);
 				deadScreen.SetActive(true);
 				break;
+		}
+	}
+
+	public void OnClickRateUsButton()
+    {
+#if UNITY_ANDROID
+		Application.OpenURL("market://details?id=com.flytele.phone");
+#elif UNITY_IPHONE
+		Application.OpenURL("itms-apps://itunes.apple.com/app/id213123123");
+#endif
+	}
+
+	public void OnClickRatingButton()
+    {
+		
+	}
+
+	public void OnClickUploadAvatarButton()
+    {
+		NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((path) =>
+		{
+			Debug.Log("Image path: " + path);
+			if (path != null)
+			{
+
+				// Create Texture from selected image
+				Texture2D texture = NativeGallery.LoadImageAtPath(path, 20000);
+				if (texture == null)
+				{
+					Debug.Log("Couldn't load texture from " + path);
+					return;
+				}
+
+				PlayerPrefs.SetString("ImageAvatarPath", path);
+				LoadAvatarImage();
+			}
+		}, "Select a PNG image", "image/png");
+
+		Debug.Log("Permission result: " + permission);
+	}
+
+	public void OnClickUploadBackgroundButton()
+    {
+		NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((path) =>
+		{
+			Debug.Log("Image path: " + path);
+			if (path != null)
+			{
+
+				// Create Texture from selected image
+				Texture2D texture = NativeGallery.LoadImageAtPath(path, 20000);
+				if (texture == null)
+				{
+					Debug.Log("Couldn't load texture from " + path);
+					return;
+				}
+
+				PlayerPrefs.SetString("ImageBackgroundPath", path);
+				LoadBackgroundImage();
+			}
+		}, "Select a PNG image", "image/png");
+
+		Debug.Log("Permission result: " + permission);
+	}
+
+	public void OnClickMuteOrUnmuteButton()
+	{
+		if (!AudioListener.pause)
+		{
+			muteOrUnmuteButton.sprite = unmuteSprite;
+			AudioListener.pause = true;
+		}
+		else
+		{
+			muteOrUnmuteButton.sprite = muteSprite;
+			AudioListener.pause = false;
+		}
+	}
+
+	public void OnClickResetAvatarButton()
+	{
+		PlayerPrefs.SetString("ImageAvatarPath", "");
+		playerPrefab.GetComponent<SpriteRenderer>().sprite = avatarSprite;
+	}
+
+	public void OnClickResetBackgroundButton()
+	{
+		PlayerPrefs.SetString("ImageBackgroundPath", "");
+		backgroundImage.GetComponent<SpriteRenderer>().sprite = backgroundSprite;
+	}
+
+	private void LoadAvatarImage()
+    {
+		string path = PlayerPrefs.GetString("ImageAvatarPath");
+		if(!path.Equals(""))
+        {
+			try
+            {
+				byte[] bytes;
+				bytes = File.ReadAllBytes(path);
+				Texture2D tex = new Texture2D(2, 2);
+				tex.LoadImage(bytes);
+
+				Sprite sp = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.one * .5f);
+				playerPrefab.GetComponent<SpriteRenderer>().sprite = sp;
+			}
+			catch(Exception e)
+            {
+				Debug.Log(e.Message);
+            }
+		}
+	}
+
+	private void LoadBackgroundImage()
+	{
+		string path = PlayerPrefs.GetString("ImageBackgroundPath");
+		if (!path.Equals(""))
+		{
+			try
+			{
+				byte[] bytes;
+				bytes = File.ReadAllBytes(path);
+				Texture2D tex = new Texture2D(2, 2);
+				tex.LoadImage(bytes);
+
+				Sprite sp = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.one * .5f);
+				backgroundImage.GetComponent<SpriteRenderer>().sprite = sp;
+			}
+			catch (Exception e)
+			{
+				Debug.Log(e.Message);
+			}
 		}
 	}
 }
