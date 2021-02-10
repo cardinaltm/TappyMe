@@ -11,11 +11,6 @@ public class GameManager : MonoBehaviour
 
 	public static GameManager Instance;
 
-	private string currentTheme;
-	public string CurrentTheme { get { return currentTheme; } set { currentTheme = value; } }
-
-
-
 	public GameObject playerPrefab;
 	public GameObject backgroundImage;
 
@@ -56,11 +51,11 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-		Screen.SetResolution(1080, 1920, true, 60);
-
+		Theme.Instance.LoadTheme();
 		LoadAvatarImage();
 		LoadBackgroundImage();
 	}
+
     public void ShowStartScreen()
 	{
 		// Initialize Play Screen Components

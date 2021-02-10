@@ -53,6 +53,15 @@ TextureImporter:
   - first:
       213: -6445758587424701734
     second: bundle_16
+  - first:
+      213: 3997541838909974435
+    second: bundle_17
+  - first:
+      213: 7976873372801902861
+    second: bundle_18
+  - first:
+      213: 7356417846360689278
+    second: bundle_19
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -468,7 +477,7 @@ TextureImporter:
         width: 157
         height: 85
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -489,7 +498,7 @@ TextureImporter:
         width: 26
         height: 26
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -497,6 +506,90 @@ TextureImporter:
       bones: []
       spriteID: 9b07a390413310d10800000000000000
       internalID: 2090007863223808185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bundle_6
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 293
+        width: 131
+        height: 130
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79c002ca0d54482f0800000000000000
+      internalID: -971574857061888873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bundle_17
+      rect:
+        serializedVersion: 2
+        x: 182
+        y: 293
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a7adf26f1f1a7730800000000000000
+      internalID: 3997541838909974435
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bundle_18
+      rect:
+        serializedVersion: 2
+        x: 333
+        y: 293
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d09212cb11c83be60800000000000000
+      internalID: 7976873372801902861
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bundle_19
+      rect:
+        serializedVersion: 2
+        x: 487
+        y: 293
+        width: 131
+        height: 131
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7a4ca72e0f371660800000000000000
+      internalID: 7356417846360689278
       vertices: []
       indices: 
       edges: []

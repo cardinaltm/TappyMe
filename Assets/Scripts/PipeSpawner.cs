@@ -10,7 +10,6 @@ public class PipeSpawner : MonoBehaviour
 		public float max;
 	}
 
-	public GameObject PipePrefab;
 	public float shiftSpeed;
 	public float spawnRate;
 	public SpawnHeight spawnHeight;
@@ -81,7 +80,9 @@ public class PipeSpawner : MonoBehaviour
 
 	private void SpawnPipe()
 	{
-		GameObject pipe = Instantiate(PipePrefab) as GameObject;
+		
+
+		GameObject pipe = Instantiate(Theme.Instance.GetPipeThemePrefab()) as GameObject;
 		pipe.transform.SetParent(transform);
 		pipe.transform.localPosition = dynamicSpawnPosition;
 
