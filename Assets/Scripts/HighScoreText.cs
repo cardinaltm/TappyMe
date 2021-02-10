@@ -8,6 +8,6 @@ public class HighScoreText : MonoBehaviour
 	private void OnEnable()
 	{
 		highScoreText = GetComponent<Text>();
-		highScoreText.text = "High Score: " + PlayerPrefs.GetInt("HighScore").ToString();
+		highScoreText.text = PlayerPrefs.GetInt("HighScore").ToString();
 	}
 }

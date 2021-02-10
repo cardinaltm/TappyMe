@@ -11,6 +11,11 @@ public class GameManager : MonoBehaviour
 
 	public static GameManager Instance;
 
+	private string currentTheme;
+	public string CurrentTheme { get { return currentTheme; } set { currentTheme = value; } }
+
+
+
 	public GameObject playerPrefab;
 	public GameObject backgroundImage;
 
@@ -32,7 +37,6 @@ public class GameManager : MonoBehaviour
 	public Sprite medalBronzeSprite;
 	public Sprite medalSilverSprite;
 	public Sprite medalGoldSprite;
-	public Sprite medalDiamondSprite;
 
 	public Image muteOrUnmuteButton;
 
@@ -135,11 +139,7 @@ public class GameManager : MonoBehaviour
 			newHighScoreImage.enabled = false;
         }
 
-		if (score >= 4)
-        {
-			medalImage.sprite = medalDiamondSprite;
-        }
-		else if(score >= 3)
+		if(score >= 3)
         {
 			medalImage.sprite = medalGoldSprite;
 		}
@@ -275,7 +275,7 @@ public class GameManager : MonoBehaviour
 	public void OnClickResetBackgroundButton()
 	{
 		PlayerPrefs.SetString("ImageBackgroundPath", "");
-		backgroundImage.GetComponent<SpriteRenderer>().sprite = backgroundSprite;
+		backgroundImage.GetComponent<Image>().sprite = backgroundSprite;
 	}
 
 	private void LoadAvatarImage()
@@ -313,7 +313,7 @@ public class GameManager : MonoBehaviour
 				tex.LoadImage(bytes);
 
 				Sprite sp = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), Vector2.one * .5f);
-				backgroundImage.GetComponent<SpriteRenderer>().sprite = sp;
+				backgroundImage.GetComponent<Image>().sprite = sp;
 			}
 			catch (Exception e)
 			{
