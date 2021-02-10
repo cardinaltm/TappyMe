@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Theme : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class Theme : MonoBehaviour
     }
 
     private Themes currentTheme;
+
+    public Image backgroundImage;
 
     public GameObject ground1;
     public GameObject ground2;
@@ -30,7 +33,11 @@ public class Theme : MonoBehaviour
     public Sprite groundWater;
     public Sprite groundLava;
 
-    
+    public Sprite backgroundSummer;
+    public Sprite backgroundDesert;
+    public Sprite backgroundLava;
+    public Sprite backgroundOcean;
+
     private void Awake()
     {
         if (Instance != null)
@@ -95,29 +102,35 @@ public class Theme : MonoBehaviour
 
     private void UpdateTheme()
     {
+        string imageBackgroundPath = PlayerPrefs.GetString("ImageBackgroundPath");
+
         if (currentTheme == Themes.Ocean)
         {
             ground1.GetComponent<SpriteRenderer>().sprite = groundWater;
             ground2.GetComponent<SpriteRenderer>().sprite = groundWater;
             currentPipePrefab = pipeBlue;
+            if (imageBackgroundPath.Equals("")) backgroundImage.sprite = backgroundOcean;
         }
         else if (currentTheme == Themes.Lava)
         {
             ground1.GetComponent<SpriteRenderer>().sprite = groundLava;
             ground2.GetComponent<SpriteRenderer>().sprite = groundLava;
             currentPipePrefab = pipeRed;
+            if (imageBackgroundPath.Equals("")) backgroundImage.sprite = backgroundLava;
         }
         else if (currentTheme == Themes.Summer)
         {
             ground1.GetComponent<SpriteRenderer>().sprite = groundGrassSmall;
             ground2.GetComponent<SpriteRenderer>().sprite = groundGrassSmall;
             currentPipePrefab = pipeGreen;
+            if (imageBackgroundPath.Equals("")) backgroundImage.sprite = backgroundSummer;
         }
         else if (currentTheme == Themes.Desert)
         {
             ground1.GetComponent<SpriteRenderer>().sprite = groundStone;
             ground2.GetComponent<SpriteRenderer>().sprite = groundStone;
             currentPipePrefab = pipeYellow;
+            if (imageBackgroundPath.Equals("")) backgroundImage.sprite = backgroundDesert;
         }
     }
 }

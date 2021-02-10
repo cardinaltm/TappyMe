@@ -270,7 +270,7 @@ public class GameManager : MonoBehaviour
 	public void OnClickResetBackgroundButton()
 	{
 		PlayerPrefs.SetString("ImageBackgroundPath", "");
-		backgroundImage.GetComponent<Image>().sprite = backgroundSprite;
+		Theme.Instance.LoadTheme();
 	}
 
 	private void LoadAvatarImage()
