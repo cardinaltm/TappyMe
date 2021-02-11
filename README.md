@@ -1,2 +1,2 @@
-# tappy-me
- TappyMe Game
+# TappyMe
+Unity Based Game
